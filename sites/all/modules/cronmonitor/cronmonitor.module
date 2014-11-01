@@ -1,0 +1,50 @@
+<?php
+
+/**
+*Implement hook permission
+**/
+function cronmonitor_permission() {
+  return array(
+    'administer cronmonitor' => array(
+      'title' => t('Admin Cron Monitor'),
+      'description' => t('Access my page on my site using cron monitor.'),
+    ),
+  );
+}
+
+
+/**
+*Implement hook menu
+*/
+
+function cronmonitor_menu() {
+    $items['admin/config/system/cronmonitor'] = array(
+    'title' => 'Cron Monitor Settings',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback'=>'drupal_get_form',
+    'page argument'=> array('cronmonitor_admin_form'),
+    'access argument'=>array('administer cronmonitor'),
+);
+    return $items;
+  }
+  
+/**
+*Administration form for crom monitor
+**/
+
+function cronmonitor_admin_form($form, &$form_state){
+$form['cronmonitor_enable']=array(
+'#type'=>'checkbox',
+'#title'=>t('Enable cron monitor'),
+'#default_value'=>variable_get('cronmonitor_enable', 0),
+);
+
+/**$form['cronmonitor_email_test'] = array(
+*'#title' => t('Test to send with cron monitor'),
+*'#type' => 'textarea',
+*'#description' => t('Edit some text with corn monior email masseges'),
+*'#default_value' => variable_get('cronmonitor_email_test',0),
+*);**/
+
+return system_settings_form($form);
+}
